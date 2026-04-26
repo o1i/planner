@@ -61,7 +61,9 @@ A guided 4-step web application that walks users through a complete personal fin
 
 ### User Profile
 
-Collected before the wizard starts: **current age**. Used to convert all age-based time entries to calendar years and vice versa.
+Collected before the wizard starts:
+- **Current age** — used to convert all age-based time entries to calendar years and vice versa
+- **Current net worth (CHF)** — the starting portfolio value for the simulation (total investable assets today)
 
 ### Wizard Steps
 
@@ -139,7 +141,7 @@ interface SimulationResult {
 }
 
 interface PlanStore {
-  profile: { currentAge: number }
+  profile: { currentAge: number; currentNetWorth: number }
   goals: LineItem[]
   income: Segment[]
   expenses: {
@@ -184,6 +186,7 @@ Returns field-level validation errors for inline display in the wizard.
 ### Rust Engine (`rust_core` via PyO3)
 
 **Inputs** (from Python):
+- `initial_net_worth: f64` — starting portfolio value in CHF
 - `cash_flows: Vec<f64>` — net CHF cash flow per year (index 0 = current age)
 - `allocation: [f64; 4]` — equities, bonds, cash, other weights
 - `return_assumptions: [(f64, f64); 4]` — (expected annual return, volatility) per asset class
