@@ -1,4 +1,4 @@
-import type { PlanState, SimulationResult, AgeQuantiles } from './types';
+import type { PlanState, SimulationResult, AgeQuantiles, LineItem, RemainderCategory } from './types';
 
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
 
@@ -43,10 +43,10 @@ function toSnake(state: PlanState) {
   };
 }
 
-function toLineItemList(items: typeof [] | any[]) {
-  return items.map((item: any) => ({
+function toLineItemList(items: LineItem[]) {
+  return items.map(item => ({
     label: item.label,
-    segments: item.segments.map((s: any) => ({
+    segments: item.segments.map(s => ({
       value: s.value,
       until: s.until === null ? null
         : 'age' in s.until ? { age: s.until.age }
@@ -56,17 +56,24 @@ function toLineItemList(items: typeof [] | any[]) {
   }));
 }
 
-function toSnakeCategory(c: string): string {
-  return c === 'guiltFree' ? 'guilt_free' : c;
+const REMAINDER_MAP: Record<RemainderCategory, string> = {
+  fixed: 'fixed', variable: 'variable', guiltFree: 'guilt_free',
+  savings: 'savings', investments: 'investments',
+};
+function toSnakeCategory(c: RemainderCategory): string {
+  return REMAINDER_MAP[c];
 }
 
 function fromSnakeResult(raw: any): SimulationResult {
+  if (!Array.isArray(raw?.by_age)) {
+    throw new Error('Unexpected simulation response: missing by_age array');
+  }
   return {
     byAge: raw.by_age.map((q: any): AgeQuantiles => ({
       age: q.age, p1: q.p1, p5: q.p5, p10: q.p10, p25: q.p25, p50: q.p50,
       p75: q.p75, p90: q.p90, p95: q.p95, p99: q.p99,
     })),
-    ruinProbability: raw.ruin_probability,
+    ruinProbability: typeof raw.ruin_probability === 'number' ? raw.ruin_probability : NaN,
   };
 }
 
@@ -90,5 +97,6 @@ export async function validate(state: PlanState): Promise<{ field: string; messa
     body: JSON.stringify(toSnake(state)),
   });
   if (!res.ok) throw new Error(`Validation request failed (${res.status})`);
-  return (await res.json()).errors;
+  const body = await res.json();
+  return Array.isArray(body.errors) ? body.errors : [];
 }

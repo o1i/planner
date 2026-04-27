@@ -17,7 +17,7 @@ export function expandSegments(segments: Segment[], currentAge: number, nYears =
       if (cursor < nYears) result[cursor] += seg.value;
       cursor++;
     } else {
-      const end = seg.until === null ? nYears : Math.min(untilToIndex(seg.until, currentAge), nYears);
+      const end = seg.until === null ? nYears : Math.min(Math.max(untilToIndex(seg.until, currentAge), cursor), nYears);
       for (let i = cursor; i < end; i++) result[i] = seg.value;
       cursor = end;
     }
