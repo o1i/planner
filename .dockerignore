@@ -1,0 +1,11 @@
+**/__pycache__
+**/*.pyc
+**/*.pyo
+rust/target/
+backend/.env
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+.worktrees/
+docs/
+.git/
