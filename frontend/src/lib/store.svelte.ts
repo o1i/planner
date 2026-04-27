@@ -1,4 +1,4 @@
-import type { PlanState, RemainderCategory } from './types';
+import type { PlanState } from './types';
 
 const initial: PlanState = {
   profile: { currentAge: 0, currentNetWorth: 0 },
