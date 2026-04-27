@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { plan, clearSimulation } from '$lib/store.svelte';
+  import { plan } from '$lib/store.svelte';
   import { simulate } from '$lib/api';
   import FanChart from '$lib/components/FanChart.svelte';
   import RuinGauge from '$lib/components/RuinGauge.svelte';
@@ -28,7 +28,7 @@
     }
   }
 
-  onMount(() => { if (!plan.simulationResult) runSimulation(); });
+  onMount(async () => { if (!plan.simulationResult) await runSimulation(); });
 </script>
 
 <h2>Step 4 — Simulation Results</h2>

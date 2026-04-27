@@ -14,7 +14,6 @@
       data.map(d => Math.max(0, (d[hi] as number) - (d[lo] as number)));
 
     const bands: { name: string; base: keyof AgeQuantiles; diff: keyof AgeQuantiles; color: string; opacity: number }[] = [
-      { name: 'p1',     base: 'p1',  diff: 'p1',  color: '#bfdbfe', opacity: 0 },
       { name: 'p1–p5',  base: 'p1',  diff: 'p5',  color: '#bfdbfe', opacity: 0.4 },
       { name: 'p5–p10', base: 'p5',  diff: 'p10', color: '#93c5fd', opacity: 0.5 },
       { name: 'p10–p25',base: 'p10', diff: 'p25', color: '#60a5fa', opacity: 0.5 },
@@ -27,7 +26,7 @@
     const series: any[] = [];
     // Base invisible line for stacking
     series.push({ name: 'base', type: 'line', data: pick('p1'), lineStyle: { opacity: 0 }, stack: 'fan', areaStyle: { opacity: 0 }, symbol: 'none' });
-    for (const b of bands.slice(1)) {
+    for (const b of bands) {
       series.push({
         name: b.name, type: 'line',
         data: diff(b.diff, b.base),
