@@ -219,3 +219,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Frontend
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+
+# Rust
+rust/target/
+*.whl
+
+# Env files
+backend/.env
+frontend/.env
+
+# Superpowers
+.superpowers/
