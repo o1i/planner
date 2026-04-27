@@ -2,8 +2,8 @@
   import { goto } from '$app/navigation';
   import { plan } from '$lib/store.svelte';
 
-  let ageStr = $state(String(plan.profile.currentAge || ''));
-  let worthStr = $state(String(plan.profile.currentNetWorth || ''));
+  let ageStr = $state(plan.profile.currentAge ? String(plan.profile.currentAge) : '');
+  let worthStr = $state(plan.profile.currentNetWorth ? String(plan.profile.currentNetWorth) : '');
   let errors = $state<{ age?: string; worth?: string }>({});
 
   function validate() {
@@ -30,12 +30,12 @@
 <div class="form">
   <label>
     Your current age
-    <input type="number" bind:value={ageStr} min="1" max="120" />
+    <input type="text" inputmode="numeric" bind:value={ageStr} />
     {#if errors.age}<span class="error">{errors.age}</span>{/if}
   </label>
   <label>
     Current net worth (CHF)
-    <input type="number" bind:value={worthStr} step="1000" />
+    <input type="text" inputmode="numeric" bind:value={worthStr} />
     {#if errors.worth}<span class="error">{errors.worth}</span>{/if}
   </label>
   <button onclick={next}>Start planning →</button>

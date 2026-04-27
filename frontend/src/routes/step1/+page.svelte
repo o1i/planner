@@ -3,7 +3,7 @@
   import { plan, markDirty } from '$lib/store.svelte';
   import LineItemEditor from '$lib/components/LineItemEditor.svelte';
 
-  function next() { markDirty(); goto('/step2'); }
+  async function next() { markDirty(); await goto('/step2'); }
 </script>
 
 <h2>Step 1 — Financial Goals</h2>
@@ -13,7 +13,7 @@
 <LineItemEditor bind:items={plan.goals} placeholder="e.g. Travel, Home renovation" />
 
 <div class="nav">
-  <button class="secondary" onclick={() => goto('/')}>← Back</button>
+  <button class="secondary" onclick={async () => { await goto('/'); }}>← Back</button>
   <button onclick={next}>Budget & Income →</button>
 </div>
 

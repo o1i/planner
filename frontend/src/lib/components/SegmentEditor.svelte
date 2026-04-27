@@ -30,7 +30,7 @@
       <label class="one-off">
         <input type="checkbox" bind:checked={seg.oneOff} /> One-off
       </label>
-      <select value={untilType(seg)} onchange={e => setUntilType(i, (e.target as HTMLSelectElement).value as any)}>
+      <select value={untilType(seg)} onchange={e => setUntilType(i, (e.target as HTMLSelectElement).value as 'none' | 'age' | 'year')}>
         <option value="none">Indefinite</option>
         <option value="age">Until age</option>
         <option value="year">Until year</option>
