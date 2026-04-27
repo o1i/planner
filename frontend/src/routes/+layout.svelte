@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import WizardNav from '$lib/components/WizardNav.svelte';
 
-  const stepMap: Record<string, 1 | 2 | 3 | 4> = {
+  type WizardStep = 0 | 1 | 2 | 3 | 4;
+  const stepMap: Record<string, WizardStep> = {
     '/step1': 1, '/step2': 2, '/step3': 3, '/step4': 4,
   };
-  let currentStep = $derived(stepMap[$page.url.pathname] ?? 0 as any);
+  let currentStep = $derived<WizardStep>(stepMap[page.url.pathname] ?? 0);
   let showNav = $derived(currentStep >= 1);
 </script>
 
