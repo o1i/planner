@@ -1,4 +1,5 @@
 <script lang="ts">
+
   import { page } from '$app/state';
   import WizardNav from '$lib/components/WizardNav.svelte';
 
